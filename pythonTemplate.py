@@ -11,8 +11,8 @@ try:
     import getopt
     import os
 except ImportError as err:
-    print "Import Error: %s" % err
-    sys.exit(3)
+    print >> sys.stderr, "Import Error: %s" % err
+    sys.exit(1)
 
 
 # Global config class (uninstantiated)
@@ -31,21 +31,22 @@ class Main(object):
     # Parse arguments
     def parse_options(self):
         try:
-            options, args = getopt.getopt(sys.argv[1:], "hV", [
-                'help',
-                'version'
+            options, args = getopt.getopt(sys.argv[1:], "hv", [
+                "help",
+                "version"
             ])
-        except getopt.GetoptError:
+        except getopt.GetoptError as err:
+            self.error("Error: %s" % err)
             self.usage()
             self.die(1)
 
         for opt, arg in options:
-            if opt in ('-h', '--help'):
+            if opt in ("-h", "--help"):
                 self.usage()
-                self.die(0)
-            if opt in ('-V', '--version'):
+                self.die()
+            if opt in ("-v", "--version"):
                 self.version()
-                self.die(0)
+                self.die()
 
     # Display version
     def version(self):
@@ -59,9 +60,13 @@ class Main(object):
         print "-h\t\tPrint this help summary page"
         print "-V\t\tPrint version number"
 
+    def error(self, message=None):
+        if message is not None:
+            print >> sys.stderr, message
+
     # App code to be run
     def run(self):
-        self.die
+        print "Hello Universe!"
 
     # Exit app with code and optional message
     def die(self, code=0, message=None):
