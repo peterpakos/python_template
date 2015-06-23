@@ -15,14 +15,10 @@ except ImportError as err:
     sys.exit(1)
 
 
-# Global config class (uninstantiated)
-class config:
-    app_version = "1.0"
-    app_name = os.path.basename(sys.argv[0])
-
-
 # Main class
 class Main(object):
+    app_version = "1.0"
+    app_name = os.path.basename(sys.argv[0])
 
     # Constructor method
     def __init__(self):
@@ -50,15 +46,15 @@ class Main(object):
 
     # Display version
     def version(self):
-        print "%s version %s" % (config.app_name, config.app_version)
+        print "%s version %s" % (self.app_name, self.app_version)
 
     # Display help page
     def usage(self):
         self.version()
-        print "Usage: %s [OPTIONS]" % config.app_name
+        print "Usage: %s [OPTIONS]" % self.app_name
         print "AVAILABLE OPTIONS:"
         print "-h\t\tPrint this help summary page"
-        print "-V\t\tPrint version number"
+        print "-v\t\tPrint version number"
 
     def error(self, message=None):
         if message is not None:
