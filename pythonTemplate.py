@@ -1,30 +1,25 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 #
-# Python template
+# Script description.
 #
-# Author: Peter Pakos
-# Copyright (C) 2015
+# Author: First Last <first.last@wandisco.com>
 
-# Import modules
 try:
     import sys
-    import getopt
     import os
+    import getopt
 except ImportError as err:
     print >> sys.stderr, "Import Error: %s" % err
     sys.exit(1)
 
 
-# Main class
 class Main(object):
     app_version = "1.0"
     app_name = os.path.basename(sys.argv[0])
 
-    # Constructor method
     def __init__(self):
-        self.test = self.parse_options()
+        self.parse_options()
 
-    # Parse arguments
     def parse_options(self):
         try:
             options, args = getopt.getopt(sys.argv[1:], "hv", [
@@ -32,45 +27,34 @@ class Main(object):
                 "version"
             ])
         except getopt.GetoptError as err:
-            self.error("Error: %s" % err)
-            self.usage()
-            self.die(1)
+            self.die(err)
 
         for opt, arg in options:
             if opt in ("-h", "--help"):
                 self.usage()
-                self.die()
+                sys.exit()
             if opt in ("-v", "--version"):
                 self.version()
-                self.die()
+                sys.exit()
 
-    # Display version
     def version(self):
         print "%s version %s" % (self.app_name, self.app_version)
 
-    # Display help page
     def usage(self):
         self.version()
-        print "Usage: %s [OPTIONS]" % self.app_name
-        print "AVAILABLE OPTIONS:"
-        print "-h\t\tPrint this help summary page"
-        print "-v\t\tPrint version number"
+        print """Usage: %s [OPTIONS]
+AVAILABLE OPTIONS:
+-h, --help      Print this help summary page
+-v, --version   Print version number""" % self.app_name
 
-    def error(self, message=None):
+    def die(self, message=None, code=1):
         if message is not None:
             print >> sys.stderr, message
-
-    # App code to be run
-    def run(self):
-        print "Hello Universe!"
-
-    # Exit app with code and optional message
-    def die(self, code=0, message=None):
-        if message is not None:
-            print message
         sys.exit(code)
 
-# Instantiate main class and run it
+    def run(self):
+        print "Hello World!"
+
 if __name__ == '__main__':
     app = Main()
     app.run()
