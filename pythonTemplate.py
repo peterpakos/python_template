@@ -46,14 +46,12 @@ AVAILABLE OPTIONS:
 -h, --help      Print this help summary page
 -v, --version   Print version number""" % self.name)
 
-    @staticmethod
-    def die(message=None, code=1):
+    def die(self, message=None, code=1):
         if message is not None:
             print(message, file=stderr)
         exit(code)
 
-    @staticmethod
-    def run():
+    def run(self):
         print("Hello World!")
 
 if __name__ == '__main__':
