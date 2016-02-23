@@ -5,7 +5,7 @@
 # Author: First Last <first.last@wandisco.com>
 
 from __future__ import print_function
-from sys import stderr, exit, argv
+from sys import stderr, argv
 from os import path
 from getopt import getopt, GetoptError
 
@@ -16,9 +16,10 @@ class Main(object):
 
     def __init__(self):
         self.parse_options()
+        print("Hello World!")
 
     def parse_options(self):
-        options = False
+        options = None
 
         try:
             options, args = getopt(argv[1:], "hv", [
@@ -46,14 +47,12 @@ AVAILABLE OPTIONS:
 -h, --help      Print this help summary page
 -v, --version   Print version number""" % self.name)
 
-    def die(self, message=None, code=1):
+    @staticmethod
+    def die(message=None, code=1):
         if message is not None:
             print(message, file=stderr)
         exit(code)
 
-    def run(self):
-        print("Hello World!")
 
 if __name__ == '__main__':
     app = Main()
-    app.run()
