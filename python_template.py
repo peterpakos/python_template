@@ -11,12 +11,15 @@ from getopt import getopt, GetoptError
 
 
 class Main(object):
-    version = "1.0"
-    name = path.basename(argv[0])
+    __version = "1.0"
+    __name = path.basename(argv[0])
 
     def __init__(self):
         self.parse_options()
         print("Hello World!")
+
+    def __del__(self):
+        return True
 
     def parse_options(self):
         options = None
@@ -38,14 +41,14 @@ class Main(object):
                 exit()
 
     def display_version(self):
-        print("%s version %s" % (self.name, self.version))
+        print("%s version %s" % (self.__name, self.__version))
 
     def display_usage(self):
         self.display_version()
         print("""Usage: %s [OPTIONS]
 AVAILABLE OPTIONS:
 -h, --help      Print this help summary page
--v, --version   Print version number""" % self.name)
+-v, --version   Print version number""" % self.__name)
 
     @staticmethod
     def die(message=None, code=1):
