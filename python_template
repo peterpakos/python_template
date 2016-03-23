@@ -11,27 +11,27 @@ from argparse import ArgumentParser
 
 
 class Main(object):
-    __version = '1.0'
-    __name = path.basename(argv[0])
+    _version = '1.0'
+    _name = path.basename(argv[0])
 
     def __init__(self):
-        self.parse_args()
+        self._parse_args()
         print('Hello World!')
 
     def __del__(self):
-        return True
+        pass
 
-    def parse_args(self):
+    def _parse_args(self):
         parser = ArgumentParser()
         parser.add_argument('-v', '--version',
                             help='show version', action="store_true")
         args = parser.parse_args()
         if args.version:
-            self.display_version()
+            self._display_version()
             exit()
 
-    def display_version(self):
-        print('%s version %s' % (self.__name, self.__version))
+    def _display_version(self):
+        print('%s version %s' % (self._name, self._version))
 
     @staticmethod
     def die(message=None, code=1):
