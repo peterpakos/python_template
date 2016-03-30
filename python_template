@@ -16,19 +16,23 @@ class Main(object):
 
     def __init__(self):
         self._args = self._parse_args()
-        print('Hello World!')
 
     def __del__(self):
         pass
 
     def _parse_args(self):
         parser = argparse.ArgumentParser(description='Script description')
-        parser.add_argument('-v', '--version',
-                            help='show version', action='store_true')
+        parser.add_argument('--version', action='version', version='%s %s' % (self._name, self._version))
+
+#        subparsers = parser.add_subparsers(title='commands')
+
+#        parser_a = subparsers.add_parser('a', help='a help')
+#        parser_a.add_argument('bar', help='bar help')
+
+#        parser_b = subparsers.add_parser('b', help='b help')
+#        parser_b.add_argument('--baz', choices='XYZ', help='baz help')
+
         args = parser.parse_args()
-        if args.version:
-            self._display_version()
-            exit()
         return args
 
     def _display_version(self):
@@ -40,6 +44,11 @@ class Main(object):
             print(message, file=sys.stderr)
         exit(code)
 
+    @staticmethod
+    def run():
+        print('Hello World!')
+
 
 if __name__ == '__main__':
     main = Main()
+    main.run()
