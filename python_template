@@ -35,9 +35,6 @@ class Main(object):
 
         return parser.parse_args()
 
-    def _display_version(self):
-        print('%s version %s' % (self._name, self._version))
-
     @staticmethod
     def die(message=None, code=1):
         if message:
