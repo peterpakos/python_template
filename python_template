@@ -1,8 +1,9 @@
 #!/usr/bin/env python
-#
-# Script description
-#
-# Author: First Last <first.last@wandisco.com>
+"""
+Script description
+
+Author: Peter Pakos <peter.pakos@wandisco.com>
+"""
 
 from __future__ import print_function
 
@@ -12,6 +13,9 @@ import sys
 
 
 class Main(object):
+    """
+    Main class
+    """
     _version = '1.0'
     _name = os.path.basename(sys.argv[0])
 
@@ -23,7 +27,8 @@ class Main(object):
 
     def _parse_args(self):
         parser = argparse.ArgumentParser(description='Script description')
-        parser.add_argument('--version', action='version', version='%s %s' % (self._name, self._version))
+        parser.add_argument('--version', action='version', version='%s %s' %
+                            (self._name, self._version))
 
         #        subparsers = parser.add_subparsers(title='commands')
 
@@ -37,18 +42,24 @@ class Main(object):
 
     @staticmethod
     def die(message=None, code=1):
+        """
+        Method to gracefully exit the program
+        """
         if message:
             print(message, file=sys.stderr)
         exit(code)
 
     @staticmethod
     def run():
+        """
+        Main method to execude code
+        """
         print('Hello World!')
 
 
 if __name__ == '__main__':
     try:
-        main = Main()
+        main = Main() # pylint: disable-msg=C0103
         main.run()
     except KeyboardInterrupt:
         print('\nCancelling...')
