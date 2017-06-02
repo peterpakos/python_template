@@ -6,7 +6,6 @@ Author: Peter Pakos <peter.pakos@wandisco.com>
 """
 
 from __future__ import print_function
-
 import argparse
 import os
 import sys
@@ -16,34 +15,35 @@ class Main(object):
     """
     Main class
     """
-    _version = '1.0'
-    _name = os.path.basename(sys.argv[0])
 
     def __init__(self):
+        """
+        Constructor
+        """
+        self._name = os.path.basename(sys.argv[0])
+        self._version = '1.0.0'
         self._args = self._parse_args()
 
     def __del__(self):
+        """
+        Destructor
+        """
         pass
 
     def _parse_args(self):
+        """
+        Parse command line arguments
+        """
         parser = argparse.ArgumentParser(description='Script description')
         parser.add_argument('--version', action='version', version='%s %s' %
                             (self._name, self._version))
-
-        #subparsers = parser.add_subparsers(title='commands')
-
-        #parser_a = subparsers.add_parser('a', help='a help')
-        #parser_a.add_argument('bar', help='bar help')
-
-        #parser_b = subparsers.add_parser('b', help='b help')
-        #parser_b.add_argument('--baz', choices='XYZ', help='baz help')
 
         return parser.parse_args()
 
     @staticmethod
     def die(message=None, code=1):
         """
-        Method to gracefully exit the program
+        Gracefully exit the program
         """
         if message:
             print(message, file=sys.stderr)
@@ -52,14 +52,14 @@ class Main(object):
     @staticmethod
     def run():
         """
-        Main method to execude code
+        Execute main code
         """
         print('Hello World!')
 
 
 if __name__ == '__main__':
     try:
-        main = Main() # pylint: disable-msg=C0103
+        main = Main()  # pylint: disable-msg=C0103
         main.run()
     except KeyboardInterrupt:
         print('\nCancelling...')
