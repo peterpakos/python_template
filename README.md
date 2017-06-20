@@ -16,5 +16,5 @@ optional arguments
 ## Version
 ```
 $ ./python_template --version
-python_template 1.0
+python_template 1.0.0
 ```

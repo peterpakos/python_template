@@ -1,65 +1,54 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 """
 Script description
 
-Author: Peter Pakos <peter.pakos@wandisco.com>
+Copyright (C) 2017 Peter Pakos <peter.pakos@wandisco.com>
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
 from __future__ import print_function
-import argparse
 import os
 import sys
+import argparse
 
 
 class Main(object):
-    """
-    Main class
-    """
+    VERSION = '1.0.0'
 
     def __init__(self):
-        """
-        Constructor
-        """
-        self._name = os.path.basename(sys.argv[0])
-        self._version = '1.0.0'
         self._args = self._parse_args()
 
-    def __del__(self):
-        """
-        Destructor
-        """
-        pass
-
     def _parse_args(self):
-        """
-        Parse command line arguments
-        """
         parser = argparse.ArgumentParser(description='Script description')
-        parser.add_argument('--version', action='version', version='%s %s' %
-                            (self._name, self._version))
-
+        parser.add_argument('--version', action='version',
+                            version='%s %s' % (os.path.basename(sys.argv[0]), self.VERSION))
         return parser.parse_args()
 
     @staticmethod
     def die(message=None, code=1):
-        """
-        Gracefully exit the program
-        """
         if message:
             print(message, file=sys.stderr)
         exit(code)
 
-    @staticmethod
-    def run():
-        """
-        Execute main code
-        """
-        print('Hello World!')
+    def run(self):
+        self.die('I\'m just a template, edit me!')
 
 
 if __name__ == '__main__':
     try:
-        main = Main()  # pylint: disable-msg=C0103
-        main.run()
+        Main().run()
     except KeyboardInterrupt:
         print('\nCancelling...')
