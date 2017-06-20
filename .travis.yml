@@ -5,11 +5,9 @@ python:
   - "3.4"
   - "3.5"
   - "3.6"
-install:
-  - pip install pylint
 script:
-  - pylint python_template
   - pep8 --max-line-length=120 python_template
+  - pylint python_template
 notifications:
   email:
     recipients:
