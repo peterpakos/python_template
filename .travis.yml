@@ -10,5 +10,7 @@ script:
   - pylint python_template
 notifications:
   email:
+    on_success: change
+    on_failure: always
     recipients:
-      - peter@pakos.uk
+    - peter@pakos.uk
