@@ -29,8 +29,6 @@ class Main(object):
         self._log = get_logger(debug=self._args.debug, quiet=self._args.quiet, console_level='INFO', file_level='INFO')
         self._log.debug('Initialising...')
         self._msg = Config.MESSAGE
-        import time
-        time.sleep(600)
 
     @staticmethod
     def _lock_file(lock_file='.lock'):
