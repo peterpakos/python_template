@@ -1,1 +1,5 @@
+*.pyc
 .idea
+.lock
+logs/
+CONFIG.py

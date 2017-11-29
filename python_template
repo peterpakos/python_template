@@ -1,55 +1,70 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
 Script description
 
-Copyright (C) 2017 Peter Pakos <peter.pakos@wandisco.com>
+Author: Peter Pakos <peter.pakos@wandisco.com>
 
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
+Copyright (C) 2017 WANdisco. All rights reserved.
 """
 
 from __future__ import print_function
 import os
 import sys
 import argparse
+import fcntl
+from CONFIG import CONFIG
+from Logger import get_logger
 
 
 class Main(object):
     VERSION = '1.0.0'
 
     def __init__(self):
+        if not self._lock_file():
+            self.die('The script is already running, exiting...')
+
         self._args = self._parse_args()
+        self._log = get_logger(file_name=__file__, debug=self._args.debug, quiet=self._args.quiet,
+                               console_level='CRITICAL', file_level='INFO')
+        self._log.debug('Initialising...')
+        self._msg = CONFIG.MESSAGE
+
+    @staticmethod
+    def _lock_file(lock_file='.lock'):
+        file_descriptor = os.open(lock_file, os.O_CREAT | os.O_TRUNC | os.O_WRONLY)
+        try:
+            fcntl.lockf(file_descriptor, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except IOError:
+            return False
+
+        return True
 
     def _parse_args(self):
         parser = argparse.ArgumentParser(description='Script description', add_help=False)
         parser.add_argument('--version', action='version',
                             version='%s %s' % (os.path.basename(sys.argv[0]), self.VERSION))
         parser.add_argument('--help', action='help', help='show this help message and exit')
+        parser.add_argument('-d', '--debug', action='store_true', dest='debug', help='debug mode')
+        parser.add_argument('-q', '--quiet', action='store_true', dest='quiet', help="don't output to stdout")
+
         return parser.parse_args()
 
     @staticmethod
-    def die(message=None, code=1):
-        if message:
-            print(message, file=sys.stderr)
+    def die(msg=None, code=1):
+        if msg:
+            print(msg, file=sys.stderr)
         exit(code)
 
     def run(self):
-        self.die('I\'m just a template, edit me!')
+        self._log.debug('Starting...')
+        print(self._msg)
+        self._log.debug('Finishing...')
 
 
 if __name__ == '__main__':
     try:
         Main().run()
     except KeyboardInterrupt:
-        print('\nCancelling...')
+        print('Terminating...')
+        exit(130)
