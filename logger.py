@@ -8,14 +8,21 @@ Copyright (C) 2017 WANdisco. All rights reserved.
 """
 
 import os
+import sys
 import logging
 
 
-def get_logger(dir_name='logs', file_name='application.log', debug=False, quiet=False,
+def get_logger(dir_name=None, file_name=None, debug=False, quiet=False,
                console_level='INFO', file_level='INFO'):
-    log_file = '%s/%s.log' % (dir_name, file_name)
-    if not os.path.exists(dir_name):
-        os.makedirs(dir_name)
+    if not file_name:
+        file_name = os.path.splitext(sys.modules['__main__'].__file__)[0] + '.log'
+    if dir_name:
+        log_file = '%s/%s' % (dir_name, file_name)
+        if not os.path.exists(dir_name):
+            os.makedirs(dir_name)
+    else:
+        log_file = file_name
+
     logger = logging.getLogger()
     logger.setLevel(logging.DEBUG)
 
@@ -23,8 +30,8 @@ def get_logger(dir_name='logs', file_name='application.log', debug=False, quiet=
         if debug:
             console_formatter = logging.Formatter('%(asctime)s [%(module)s] %(levelname)s %(message)s')
         else:
-            console_formatter = logging.Formatter('%(asctime)s %(message)s')
-        console_handler = logging.StreamHandler()
+            console_formatter = logging.Formatter('%(message)s')
+        console_handler = logging.StreamHandler(sys.stdout)
         console_handler.setLevel(logging.DEBUG if debug else getattr(logging, console_level.upper()))
         console_handler.setFormatter(console_formatter)
         logger.addHandler(console_handler)

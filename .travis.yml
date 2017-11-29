@@ -3,12 +3,11 @@ python:
   - "2.7"
   - "3.6"
 install:
-  - pip install pylint pep8
+  - pip install pep8
 before_script:
-  - mv CONFIG_SAMPLE.py CONFIG.py
+  - mv config_sample.py config.py
 script:
   - pep8 --max-line-length=120 python_template *.py
-  - pylint python_template
   - ./python_template --help
 notifications:
   email:

@@ -8,5 +8,5 @@ Copyright (C) 2017 WANdisco. All rights reserved.
 """
 
 
-class CONFIG(object):
+class Config(object):
     MESSAGE = "I'm just a template, edit me!"

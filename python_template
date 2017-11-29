@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Script description
+Python Template
 
 Author: Peter Pakos <peter.pakos@wandisco.com>
 
@@ -13,8 +13,8 @@ import os
 import sys
 import argparse
 import fcntl
-from CONFIG import CONFIG
-from Logger import get_logger
+from config import Config
+from logger import get_logger
 
 
 class Main(object):
@@ -22,13 +22,15 @@ class Main(object):
 
     def __init__(self):
         if not self._lock_file():
-            self.die('The script is already running, exiting...')
+            print('The script is already running, exiting...', file=sys.stderr)
+            exit(1)
 
         self._args = self._parse_args()
-        self._log = get_logger(file_name=__file__, debug=self._args.debug, quiet=self._args.quiet,
-                               console_level='CRITICAL', file_level='INFO')
+        self._log = get_logger(debug=self._args.debug, quiet=self._args.quiet, console_level='INFO', file_level='INFO')
         self._log.debug('Initialising...')
-        self._msg = CONFIG.MESSAGE
+        self._msg = Config.MESSAGE
+        import time
+        time.sleep(600)
 
     @staticmethod
     def _lock_file(lock_file='.lock'):
@@ -41,24 +43,18 @@ class Main(object):
         return True
 
     def _parse_args(self):
-        parser = argparse.ArgumentParser(description='Script description', add_help=False)
+        parser = argparse.ArgumentParser(description='Python Template', add_help=False)
         parser.add_argument('--version', action='version',
                             version='%s %s' % (os.path.basename(sys.argv[0]), self.VERSION))
         parser.add_argument('--help', action='help', help='show this help message and exit')
         parser.add_argument('-d', '--debug', action='store_true', dest='debug', help='debug mode')
-        parser.add_argument('-q', '--quiet', action='store_true', dest='quiet', help="don't output to stdout")
+        parser.add_argument('-q', '--quiet', action='store_true', dest='quiet', help="don't log to console")
 
         return parser.parse_args()
 
-    @staticmethod
-    def die(msg=None, code=1):
-        if msg:
-            print(msg, file=sys.stderr)
-        exit(code)
-
     def run(self):
         self._log.debug('Starting...')
-        print(self._msg)
+        self._log.info(self._msg)
         self._log.debug('Finishing...')
 
 
@@ -66,5 +62,5 @@ if __name__ == '__main__':
     try:
         Main().run()
     except KeyboardInterrupt:
-        print('Terminating...')
+        print('\nTerminating...')
         exit(130)

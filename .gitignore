@@ -1,5 +1,6 @@
+__pycache__
 *.pyc
 .idea
 .lock
-logs/
+*.log
 CONFIG.py
