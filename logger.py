@@ -12,10 +12,20 @@ import sys
 import logging
 
 
-def get_logger(dir_name=None, file_name=None, debug=False, quiet=False,
-               console_level='INFO', file_level='INFO'):
+def get_logger(dir_name=None, file_name=None, debug=False, verbose=False, quiet=False, console_level='INFO',
+               file_level='INFO'):
+    if not verbose:
+        other_loggers = []
+        for key in logging.Logger.manager.loggerDict:
+            other_logger = str(key).split('.')[0]
+            if other_logger not in other_loggers:
+                other_loggers.append(other_logger)
+        for other_logger in other_loggers:
+            logging.getLogger(other_logger).propagate = False
+
     if not file_name:
         file_name = os.path.splitext(sys.modules['__main__'].__file__)[0] + '.log'
+
     if dir_name:
         log_file = '%s/%s' % (dir_name, file_name)
         if not os.path.exists(dir_name):

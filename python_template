@@ -26,7 +26,7 @@ class Main(object):
             exit(1)
 
         self._args = self._parse_args()
-        self._log = get_logger(debug=self._args.debug, quiet=self._args.quiet, console_level='INFO', file_level='INFO')
+        self._log = get_logger(debug=self._args.debug, quiet=self._args.quiet, verbose=self._args.verbose)
         self._log.debug('Initialising...')
         self._msg = Config.MESSAGE
 
@@ -45,8 +45,9 @@ class Main(object):
         parser.add_argument('--version', action='version',
                             version='%s %s' % (os.path.basename(sys.argv[0]), self.VERSION))
         parser.add_argument('--help', action='help', help='show this help message and exit')
-        parser.add_argument('-d', '--debug', action='store_true', dest='debug', help='debug mode')
-        parser.add_argument('-q', '--quiet', action='store_true', dest='quiet', help="don't log to console")
+        parser.add_argument('--debug', action='store_true', dest='debug', help='debugging mode')
+        parser.add_argument('--verbose', action='store_true', dest='verbose', help='verbose logging mode')
+        parser.add_argument('--quiet', action='store_true', dest='quiet', help="don't log to console")
 
         return parser.parse_args()
 
