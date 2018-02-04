@@ -22,9 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from __future__ import absolute_import, print_function
 import os
-import sys
 import argparse
-import fcntl
 from pplogger import get_logger
 from . import VERSION
 
@@ -36,10 +34,6 @@ except ImportError:
 
 class Main(object):
     def __init__(self):
-        if not self._lock_file():
-            print('The script is already running, exiting...', file=sys.stderr)
-            exit(1)
-
         self._app_name = os.path.splitext(__name__)[0].lower()
         self._args = self._parse_args()
         self._log = get_logger(debug=self._args.debug, quiet=self._args.quiet, verbose=self._args.verbose)
@@ -51,16 +45,6 @@ class Main(object):
             self._app_name
         )
         self._load_config()
-
-    @staticmethod
-    def _lock_file(lock_file='.lock'):
-        file_descriptor = os.open(lock_file, os.O_CREAT | os.O_TRUNC | os.O_WRONLY)
-        try:
-            fcntl.lockf(file_descriptor, fcntl.LOCK_EX | fcntl.LOCK_NB)
-        except IOError:
-            return False
-
-        return True
 
     def _parse_args(self):
         parser = argparse.ArgumentParser(description='Python Template', add_help=False)
