@@ -1,5 +1,5 @@
 # python_template
-Python Template
+Python project template
 
 PyPI package: [python_template](https://pypi.python.org/pypi/python_template)
 
@@ -15,9 +15,8 @@ system's PATH.
 ### pip install
 The tool is available in PyPI and can be installed using pip:
 ```
-$ pip install --upgrade pip setuptools wheel
-$ pip install python_template
-$ python_template --help
+$ pip install --user python_template
+$ python_template
 ```
 
 ## Configuration
@@ -38,5 +37,5 @@ optional arguments:
   --help     show this help message and exit
   --debug    debugging mode
   --verbose  verbose logging mode
-  --quiet    don't log to console
+  --quiet    no console output
 ```

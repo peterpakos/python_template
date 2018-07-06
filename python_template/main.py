@@ -4,7 +4,7 @@
 
 Author: Peter Pakos <peter.pakos@wandisco.com>
 
-Copyright (C) 2017 WANdisco
+Copyright (C) 2018 WANdisco
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -21,10 +21,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
 from __future__ import absolute_import, print_function
+from .__version__ import __version__
+
 import os
 import argparse
 from pplogger import get_logger
-from . import VERSION
 
 try:
     import configparser
@@ -49,11 +50,11 @@ class Main(object):
     def _parse_args(self):
         parser = argparse.ArgumentParser(description='Python Template', add_help=False)
         parser.add_argument('--version', action='version',
-                            version='%s %s' % (self._app_name, VERSION))
+                            version='%s %s' % (self._app_name, __version__))
         parser.add_argument('--help', action='help', help='show this help message and exit')
         parser.add_argument('--debug', action='store_true', dest='debug', help='debugging mode')
         parser.add_argument('--verbose', action='store_true', dest='verbose', help='verbose logging mode')
-        parser.add_argument('--quiet', action='store_true', dest='quiet', help="don't log to console")
+        parser.add_argument('--quiet', action='store_true', dest='quiet', help="no console output")
 
         return parser.parse_args()
 
@@ -71,13 +72,13 @@ class Main(object):
 
             with open(self._config_path, 'w') as cfgfile:
                 config.write(cfgfile)
-            self._log.info('Initial config saved to %s - PLEASE EDIT IT!' % self._config_path)
+            self._log.info('Initial config saved - PLEASE EDIT IT!')
             return
 
         self._log.debug('Loading configuration file %s' % self._config_path)
 
         if 'changeme' in open(self._config_path).read():
-            self._log.debug('Initial config found in %s - PLEASE EDIT IT!' % self._config_path)
+            self._log.debug('Initial config found - PLEASE EDIT IT!')
             return
 
         config.read(self._config_path)
