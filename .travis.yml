@@ -17,10 +17,8 @@ matrix:
     env: TOXENV=packagepy2
   - python: "3.6"
     env: TOXENV=packagepy3
-install:
-  - pip install --upgrade pip setuptools wheel tox
-script:
-  - tox
+install: pip install tox
+script: tox
 notifications:
   email:
     on_success: change

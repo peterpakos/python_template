@@ -26,82 +26,29 @@ from .__version__ import __version__
 import os
 import argparse
 from pplogger import get_logger
+from ppconfig import Config
 
-try:
-    import configparser
-except ImportError:
-    import ConfigParser as configparser
+__app_name__ = os.path.splitext(__name__)[0].lower()
 
 
-class Main(object):
-    def __init__(self):
-        self._app_name = os.path.splitext(__name__)[0].lower()
-        self._args = self._parse_args()
-        self._log = get_logger(debug=self._args.debug, quiet=self._args.quiet, verbose=self._args.verbose)
-        self._log.debug(self._args)
-        self._log.debug('Initialising...')
-        self._config_dir = os.path.expanduser(os.environ.get('XDG_CONFIG_HOME', '~/.config'))
-        self._config_path = os.path.join(
-            self._config_dir,
-            self._app_name
-        )
-        self._load_config()
-
-    def _parse_args(self):
-        parser = argparse.ArgumentParser(description='Python Template', add_help=False)
-        parser.add_argument('--version', action='version',
-                            version='%s %s' % (self._app_name, __version__))
-        parser.add_argument('--help', action='help', help='show this help message and exit')
-        parser.add_argument('--debug', action='store_true', dest='debug', help='debugging mode')
-        parser.add_argument('--verbose', action='store_true', dest='verbose', help='verbose logging mode')
-        parser.add_argument('--quiet', action='store_true', dest='quiet', help="no console output")
-
-        return parser.parse_args()
-
-    def _load_config(self):
-        config = configparser.ConfigParser()
-
-        if not os.path.exists(self._config_dir):
-            self._log.debug('Config directory %s does not exist, creating' % self._config_dir)
-            os.makedirs(self._config_dir)
-
-        if not os.path.isfile(self._config_path):
-            self._log.debug('Config file not found at %s' % self._config_path)
-            config.add_section('SECTION')
-            config.set('SECTION', 'SOME_VAR', 'changeme')
-
-            with open(self._config_path, 'w') as cfgfile:
-                config.write(cfgfile)
-            self._log.info('Initial config saved - PLEASE EDIT IT!')
-            return
-
-        self._log.debug('Loading configuration file %s' % self._config_path)
-
-        if 'changeme' in open(self._config_path).read():
-            self._log.debug('Initial config found - PLEASE EDIT IT!')
-            return
-
-        config.read(self._config_path)
-
-        if not config.has_section('SECTION'):
-            self._log.debug('Config file has no SECTION section')
-            return
-
-        if config.has_option('SECTION', 'SOME_VAR'):
-            self._some_var = config.get('SECTION', 'SOME_VAR')
-            self._log.debug('SOME_VAR = %s' % self._some_var)
-        else:
-            self._log.debug('SECTION.SOME_VAR not set')
-
-    def run(self):
-        self._log.debug('Starting...')
-        self._log.info('I am just a template, edit me!')
-        self._log.debug('Finishing...')
+def parse_args():
+    parser = argparse.ArgumentParser(description='Python Template', add_help=False)
+    parser.add_argument('--version', action='version', version='%s %s' % (__app_name__, __version__))
+    parser.add_argument('--help', action='help', help='show this help message and exit')
+    parser.add_argument('--debug', action='store_true', dest='debug', help='debugging mode')
+    parser.add_argument('--quiet', action='store_true', dest='quiet', help="no console output")
+    return parser.parse_args()
 
 
 def main():
+    args = parse_args()
+    log = get_logger(debug=args.debug, quiet=args.quiet)
+    log.debug(args)
+
     try:
-        Main().run()
-    except KeyboardInterrupt:
-        print('\nTerminating...')
-        exit(130)
+        config = Config(config_file=__app_name__)
+    except IOError as e:
+        log.critical(e)
+        exit(1)
+
+    log.info('I am just a template, edit me!')
