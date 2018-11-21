@@ -35,7 +35,7 @@ def parse_args():
     parser.add_argument('--version', action='version', version='%s %s' % (__app_name__, __version__))
     parser.add_argument('--help', action='help', help='show this help message and exit')
     parser.add_argument('--debug', action='store_true', dest='debug', help='debugging mode')
-    parser.add_argument('--quiet', action='store_true', dest='quiet', help="no console output")
+    parser.add_argument('--quiet', action='store_true', dest='quiet', help='no console output')
     return parser.parse_args()
 
 
@@ -46,7 +46,8 @@ def main():
 
     try:
         config = Config(config_file=__app_name__)
-    except IOError as e:
+        var = config.get('var')
+    except (IOError, NameError) as e:
         log.critical(e)
         exit(1)
 
