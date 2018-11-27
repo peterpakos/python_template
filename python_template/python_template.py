@@ -42,6 +42,8 @@ log = get_logger(name=__name__, debug=args.debug, quiet=args.quiet)
 def main():
     log.debug(args)
 
+    var = None
+
     try:
         config = Config(config_file=__app_name__)
         var = config.get('var')
@@ -49,4 +51,4 @@ def main():
         log.critical(e)
         exit(1)
 
-    log.info('I am just a template, edit me!')
+    log.info(var)
