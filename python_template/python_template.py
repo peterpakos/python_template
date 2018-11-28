@@ -29,19 +29,17 @@ from ppconfig import Config
 
 __app_name__ = os.path.splitext(__name__)[0].lower()
 
+parser = argparse.ArgumentParser(description='Python Template', add_help=False)
+parser.add_argument('--version', action='version', version='%s %s' % (__app_name__, __version__))
+parser.add_argument('--help', action='help', help='show this help message and exit')
+parser.add_argument('--debug', action='store_true', dest='debug', help='debugging mode')
+parser.add_argument('--quiet', action='store_true', dest='quiet', help='no console output')
+args = parser.parse_args()
 
-def parse_args():
-    parser = argparse.ArgumentParser(description='Python Template', add_help=False)
-    parser.add_argument('--version', action='version', version='%s %s' % (__app_name__, __version__))
-    parser.add_argument('--help', action='help', help='show this help message and exit')
-    parser.add_argument('--debug', action='store_true', dest='debug', help='debugging mode')
-    parser.add_argument('--quiet', action='store_true', dest='quiet', help='no console output')
-    return parser.parse_args()
+log = get_logger(name=__name__, debug=args.debug, quiet=args.quiet)
 
 
 def main():
-    args = parse_args()
-    log = get_logger(debug=args.debug, quiet=args.quiet)
     log.debug(args)
 
     try:
