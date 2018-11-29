@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Python Template
+"""Python project template
 
 Author: Peter Pakos <peter.pakos@wandisco.com>
 
@@ -29,7 +29,7 @@ from ppconfig import Config
 
 __app_name__ = os.path.splitext(__name__)[0].lower()
 
-parser = argparse.ArgumentParser(description='Python Template', add_help=False)
+parser = argparse.ArgumentParser(description='Python project template', add_help=False)
 parser.add_argument('--version', action='version', version='%s %s' % (__app_name__, __version__))
 parser.add_argument('--help', action='help', help='show this help message and exit')
 parser.add_argument('--debug', action='store_true', dest='debug', help='debugging mode')

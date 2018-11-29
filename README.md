@@ -28,14 +28,13 @@ created and populated with sample config upon the next run.
 ## Usage - Help
 ```
 $ python_template --help
-usage: python_template [--version] [--help] [--debug] [--verbose] [--quiet]
+usage: python_template [--version] [--help] [--debug] [--quiet]
 
-Python Template
+Python project template
 
 optional arguments:
   --version  show program's version number and exit
   --help     show this help message and exit
   --debug    debugging mode
-  --verbose  verbose logging mode
   --quiet    no console output
 ```
