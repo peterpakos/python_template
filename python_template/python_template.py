@@ -47,7 +47,7 @@ def main():
     try:
         config = Config(config_file=__app_name__)
         var = config.get('var')
-    except (IOError, NameError) as e:
+    except (IOError, NameError, OSError) as e:
         log.critical(e)
         exit(1)
 
